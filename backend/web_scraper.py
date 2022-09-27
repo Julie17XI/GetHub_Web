@@ -1,7 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
 import re
-import json
 
 def user_info(username):
 
@@ -39,4 +38,4 @@ def user_info(username):
             "repos_info": repos_info
             }
 
-    return json.dumps(info)
+    return info

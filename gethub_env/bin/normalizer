@@ -1,4 +1,4 @@
-#!/Users/xitang/Documents/GetHubWebApp/GetHub_Web/gethub_env/bin/python3
+#!/Users/xitang/Documents/GetHubWebApp/GetHub_Web/gethub_env/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
