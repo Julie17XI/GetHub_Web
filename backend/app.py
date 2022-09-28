@@ -25,14 +25,14 @@ def index():
         return
 
     username = request.json['username']
-    return redirect(url_for('user', username=username))
-
-
-@app.route("/user/<username>")
-def user(username):
     info = user_info(username)
-    # return json.dumps(info)
-    return info
+    return json.dumps(info)
+
+
+@app.route("/user", methods = ['POST'])
+def user():
+    userinfo = request.json['userinfo']
+    return "Here at /user"
 
 if __name__ == '__main__':
     app.run(debug=True)
