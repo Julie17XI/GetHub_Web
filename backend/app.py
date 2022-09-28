@@ -1,8 +1,8 @@
-from flask import Flask, request
+from flask import Flask, request, redirect, url_for
 from flask_restful import Api
 from flask_cors import CORS #comment this on deployment
-import pymysql.cursors
 from web_scraper import user_info
+import pymysql.cursors
 import json
 import yaml
 
@@ -20,53 +20,19 @@ connection = pymysql.connect(host=db['mysql_host'],
 
 @app.route("/", methods = ['GET','POST'])
 def index():
+    # display ABOUT as BODY
     if request.method == "GET":
-        return "Hello"
+        return
 
     username = request.json['username']
+    return redirect(url_for('user', username=username))
 
-    # cur.execute('SELECT * FROM users WHERE user_name = %s', (username))
-    # data = cur.fetchall()
-    # cur.close()
-    # if data:
-    #     print(data)
-    #     return data
 
+@app.route("/user/<username>")
+def user(username):
     info = user_info(username)
-    print(info)
-    if not info:
-        return {}
-
-    user_name = info["user"]
-    repo_number = info["repo_nums"]
-    one_yr_contribution_number = info["last_yr_contribution"]
-    repos_info = info["repos_info"]
-
-    # cur = mysql.connection.cursor()
-    # cur.execute("INSERT INTO users (id, user_name, repo_number, one_yr_contribution_number) VALUES (%s,%s,%s,%s)", ("",user_name, repo_number, one_yr_contribution_number))
-    # mysql.connection.commit()
-    # cur.execute('SELECT * FROM users WHERE user_name = %s', (user_name))
-    # data = cur.fetchall()
-    # user_id = data[0][id]
-    for repo_info in repos_info:
-        if "repo_name" in repo_info:
-            repo_name = repo_info["repo_name"]
-        else:
-            repo_name = None
-        if "repo_lang" in repo_info:
-            repo_language = repo_info["repo_lang"]
-        else:
-            repo_language = None
-        if "repo_description" in repo_info:
-            repo_description = repo_info["repo_description"]
-        else:
-            repo_description = None
-    #     cur.execute("INSERT INTO public_repositories (id, repo_name, repo_language, repo_description, user_id) VALUES (%s,%s,%s,%s)", ("",repo_name, repo_language, repo_description, user_id))
-    #     mysql.connection.commit()
-    # flash('Record Added successfully')
-
-    return json.dumps(info)
-
+    # return json.dumps(info)
+    return info
 
 if __name__ == '__main__':
     app.run(debug=True)
