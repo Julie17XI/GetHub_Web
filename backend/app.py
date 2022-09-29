@@ -26,7 +26,8 @@ def index():
 
     username = request.json['username']
     info = user_info(username)
-    return json.dumps(info)
-
+    res = json.dumps(info)
+    print(res)
+    return res
 if __name__ == '__main__':
     app.run(debug=True)
