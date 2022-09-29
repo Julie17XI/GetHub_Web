@@ -28,11 +28,5 @@ def index():
     info = user_info(username)
     return json.dumps(info)
 
-
-@app.route("/user", methods = ['POST'])
-def user():
-    userinfo = request.json['userinfo']
-    return "Here at /user"
-
 if __name__ == '__main__':
     app.run(debug=True)
