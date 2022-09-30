@@ -2,7 +2,7 @@ from flask import Flask, request, redirect, url_for
 from flask_restful import Api
 from flask_cors import CORS #comment this on deployment
 from web_scraper import user_info
-from datetime import datetime
+from datetime import datetime, timedelta
 import pymysql.cursors
 import json
 import yaml
@@ -38,10 +38,13 @@ def index():
                 database_user_id = database_info["id"]
                 cursor.execute("SELECT * FROM Public_Repositories WHERE user_id = %d" %database_user_id)
                 database_pr_info=cursor.fetchall()
-                del database_info["last_search"]
-                database_info["repos_info"] = database_pr_info
-                database_res=json.dumps(database_info)
-                return database_res
+                cur_time = datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S")
+                time_elapsed=(cur_time - database_info["last_search"])
+                if time_elapsed < timedelta(hours=24):
+                    del database_info["last_search"]
+                    database_info["repos_info"] = database_pr_info
+                    database_res=json.dumps(database_info)
+                    return database_res
 
     info = user_info(username)
     res = json.dumps(info)
