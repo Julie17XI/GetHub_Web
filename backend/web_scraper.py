@@ -2,9 +2,12 @@ from bs4 import BeautifulSoup
 from urllib.error import HTTPError
 import requests
 import re
+import bs4
 
 '''
 real-time web scraping for github user information
+use url1 to get username, public repository number, and one year contribution number
+user url2 to get a list of public repositories, including repo name, repo language and repo description
 '''
 def user_info(username):
     url1 = 'https://github.com/' + username
@@ -37,7 +40,13 @@ def user_info(username):
         repo_info = {}
         repo_name = repo.find('a', itemprop='name codeRepository')
         repo_lang = repo.find('span', itemprop='programmingLanguage')
-        repo_description = repo.find('p', itemprop='description')
+        repo_description_with_emoji = repo.find('p', itemprop='description')
+        if repo_description_with_emoji:
+            text = []
+            for x in repo_description_with_emoji:
+                if isinstance(x, bs4.element.NavigableString):
+                    text.append(x.strip())
+        repo_description = " ".join(text)
         if repo_name:
             repo_info["repo_name"] = repo_name.string.strip()
         else:
@@ -47,7 +56,7 @@ def user_info(username):
         else:
             repo_info["repo_lang"] = ""
         if repo_description:
-            repo_info["repo_description"] = repo_description.string.strip()
+            repo_info["repo_description"] = repo_description.strip()
         else:
             repo_info["repo_description"] = ""
         repos_info.append(repo_info)
