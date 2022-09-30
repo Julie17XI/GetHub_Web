@@ -41,10 +41,16 @@ def user_info(username):
         repo_description = repo.find('p', itemprop='description')
         if repo_name:
             repo_info["repo_name"] = repo_name.string.strip()
+        else:
+            repo_info["repo_name"] = ""
         if repo_lang:
             repo_info["repo_lang"] = repo_lang.string.strip()
+        else:
+            repo_info["repo_lang"] = ""
         if repo_description:
             repo_info["repo_description"] = repo_description.string.strip()
+        else:
+            repo_info["repo_description"] = ""
         repos_info.append(repo_info)
 
     info = {
