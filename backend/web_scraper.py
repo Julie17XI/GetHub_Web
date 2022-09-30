@@ -1,8 +1,11 @@
 from bs4 import BeautifulSoup
-from urllib.error import HTTPError, URLError
+from urllib.error import HTTPError
 import requests
 import re
 
+'''
+real-time web scraping for github user information
+'''
 def user_info(username):
     url1 = 'https://github.com/' + username
     url2 = 'https://github.com/' + username + '?page=1&tab=repositories'
@@ -36,17 +39,14 @@ def user_info(username):
         repo_lang = repo.find('span', itemprop='programmingLanguage')
         repo_description = repo.find('p', itemprop='description')
         if repo_name:
-            #print(repo_name)
             repo_info["repo_name"] = repo_name.string.strip()
         else:
             repo_info["repo_name"] = ""
         if repo_lang:
-            #print(repo_lang)
             repo_info["repo_lang"] = repo_lang.string.strip()
         else:
             repo_info["repo_lang"] = ""
         if repo_description:
-            #print(repo_description)
             repo_info["repo_description"] = repo_description.string.strip()
         else:
             repo_info["repo_description"] = ""

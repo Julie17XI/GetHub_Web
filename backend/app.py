@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, url_for
+from flask import Flask, request
 from flask_restful import Api
 from flask_cors import CORS #comment this on deployment
 from web_scraper import user_info
@@ -27,7 +27,7 @@ def index():
     username = request.json['username']
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-    # check if username is in database
+    # check if username is in database and the data has been updated within 24 hours
     # if so, retrieve data from database
     connection.ping()
     with connection:
@@ -46,10 +46,12 @@ def index():
                     database_res=json.dumps(database_info)
                     return database_res
 
+    # if not, conduct a real-time web scraping from github
+    # return real-time data to React app
     info = user_info(username)
     res = json.dumps(info)
 
-    # save search result to database
+    # save web scraping result to database
     connection.ping()
     with connection:
         with connection.cursor() as cursor:
