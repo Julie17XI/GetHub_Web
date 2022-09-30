@@ -23,23 +23,40 @@ connection = pymysql.connect(host=db['mysql_host'],
 def index():
     if request.method == "GET":
         return
-    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    # get search input and current time
     username = request.json['username']
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+    # check if username is in database
+    # if so, retrieve data from database
+    connection.ping()
+    with connection:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT * FROM Users WHERE user_name = %s", username)
+            database_info=cursor.fetchone()
+            if database_info:
+                database_user_id = database_info["id"]
+                cursor.execute("SELECT * FROM Public_Repositories WHERE user_id = %d" %database_user_id)
+                database_pr_info=cursor.fetchall()
+                del database_info["last_search"]
+                database_info["repos_info"] = database_pr_info
+                database_res=json.dumps(database_info)
+                return database_res
 
     info = user_info(username)
     res = json.dumps(info)
 
+    # save search result to database
     connection.ping()
     with connection:
         with connection.cursor() as cursor:
             sql = "INSERT INTO Users (user_name, last_search, repo_number, one_yr_contribution_number) VALUES (%s, %s, %s, %s)"
-            cursor.execute(sql, (info["user"], timestamp, info["repo_nums"], info["last_yr_contribution"]))
-            name = info["user"]
+            cursor.execute(sql, (info["user_name"], timestamp, info["repo_number"], info["one_yr_contribution_number"]))
+            name = info["user_name"]
             cursor.execute("SELECT id FROM Users WHERE user_name = %s", name)
             user_id=cursor.fetchone()['id']
 
             for repo_info in info["repos_info"]:
-                print(repo_info)
                 sql = "INSERT INTO Public_Repositories (repo_name, repo_lang, repo_description, user_id) VALUES (%s, %s, %s, %s)"
                 cursor.execute(sql, (repo_info["repo_name"], repo_info["repo_lang"], repo_info["repo_description"], user_id))
         connection.commit()
