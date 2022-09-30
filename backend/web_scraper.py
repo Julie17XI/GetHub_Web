@@ -9,8 +9,6 @@ def user_info(username):
 
     try:
         website1 = requests.get(url1)
-        # print("---------------------website1------------------------")
-        # print(website1, ":", type(website1))
         website1.raise_for_status()
     except HTTPError as hp:
         return None
@@ -19,8 +17,6 @@ def user_info(username):
 
     try:
         website2 = requests.get(url2)
-        # print("---------------------website1------------------------")
-        # print(website2, ":", type(website2))
         website2.raise_for_status()
     except HTTPError as hp:
         return None
@@ -28,11 +24,7 @@ def user_info(username):
         print("2 it's worked")
 
     soup1 = BeautifulSoup(website1.content, 'html.parser')
-    # print("---------------------  soup1------------------------")
-    # print(soup1, ":", type(soup1))
     soup2 = BeautifulSoup(website2.content, 'html.parser')
-    # print("---------------------  soup2------------------------")
-    # print(soup2, ":", type(soup2))
 
 
     user = soup1.find('strong').string.strip()

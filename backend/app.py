@@ -2,6 +2,7 @@ from flask import Flask, request, redirect, url_for
 from flask_restful import Api
 from flask_cors import CORS #comment this on deployment
 from web_scraper import user_info
+from datetime import datetime
 import pymysql.cursors
 import json
 import yaml
@@ -20,14 +21,20 @@ connection = pymysql.connect(host=db['mysql_host'],
 
 @app.route("/", methods = ['GET','POST'])
 def index():
-    # display ABOUT as BODY
     if request.method == "GET":
         return
-
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     username = request.json['username']
     info = user_info(username)
     res = json.dumps(info)
-    print(res)
+
+    connection.ping()
+    with connection:
+        with connection.cursor() as cursor:
+            sql = "INSERT INTO `Users` (`user_name`, `last_search`, `repo_number`, `one_yr_contribution_number`) VALUES (%s, %s, %s, %s)"
+            cursor.execute(sql, (info["user"], timestamp, info["repo_nums"], info["last_yr_contribution"]))
+        connection.commit()
     return res
+
 if __name__ == '__main__':
     app.run(debug=True)
