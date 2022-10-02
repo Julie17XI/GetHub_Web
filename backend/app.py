@@ -1,11 +1,12 @@
-from flask import Flask, request
-from flask_restful import Api
-from flask_cors import CORS #comment this on deployment
-from web_scraper import user_info
 from datetime import datetime, timedelta
-import pymysql.cursors
+from flask import Flask, request
+from flask_cors import CORS #comment this on deployment
+from flask_restful import Api
 import json
+import pymysql.cursors
 import yaml
+
+from web_scraper import get_body_content
 
 app = Flask(__name__)
 CORS(app) #comment this on deployment
@@ -21,6 +22,9 @@ connection = pymysql.connect(host=db['mysql_host'],
 
 @app.route("/", methods = ['GET','POST'])
 def index():
+    '''
+    DOCString
+    '''
     if request.method == "GET":
         return
     # get search input and current time
@@ -48,16 +52,17 @@ def index():
 
     # if not, conduct a real-time web scraping from github
     # return real-time data to React app
-    info = user_info(username)
+    info = get_body_content(username)
     res = json.dumps(info)
 
     # save web scraping result to database
     connection.ping()
     with connection:
         with connection.cursor() as cursor:
+            user_basics = info["user_info"]
             sql = "INSERT INTO Users (user_name, last_search, repo_number, one_yr_contribution_number) VALUES (%s, %s, %s, %s)"
-            cursor.execute(sql, (info["user_name"], timestamp, info["repo_number"], info["one_yr_contribution_number"]))
-            name = info["user_name"]
+            cursor.execute(sql, (user_basics["user_name"], timestamp, user_basics["repo_number"], user_basics["one_yr_contribution_number"]))
+            name = user_basics["user_name"]
             cursor.execute("SELECT id FROM Users WHERE user_name = %s", name)
             user_id=cursor.fetchone()['id']
 
