@@ -39,7 +39,7 @@ def get_soup(url):
 
     :param url: string, the url that needs to be parsed
 
-    :return: class bs4.BeautifulSoup, it contains all HTML elements from this url
+    :return: bs4.BeautifulSoup object, it contains all HTML elements from this url
     """
     website = requests.get(url)  # Careful url may not exist
     soup = BeautifulSoup(website.content, 'html.parser')
@@ -93,7 +93,7 @@ def get_repo_info(repo):
     Find the repository name, the language that the repository uses, and the description
     of the repository, and save them to a map.
 
-    :param repo: class bs4.BeautifulSoup, the section that contains the data mentioned
+    :param repo: bs4.BeautifulSoup object, the section that contains the data mentioned
     above
 
     :return: dict, contains the data of each repositories of the user
