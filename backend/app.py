@@ -5,7 +5,6 @@ from flask_restful import Api
 import json
 import pymysql.cursors
 import yaml
-
 from web_scraper import get_body_content
 
 app = Flask(__name__)
