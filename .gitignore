@@ -22,3 +22,4 @@ frontend/yarn-error.log*
 
 # backend
 backend/__pycache__/
+backend/db.yaml

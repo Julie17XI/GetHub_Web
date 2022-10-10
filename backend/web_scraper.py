@@ -25,6 +25,9 @@ def get_body_content(username):
     "repo_description": "some description"}, {"repo_name": "repo2", "repo_lang": "C++,
     "repo_description": "some other description"}]}
     """
+    user_existence = check_url(username)
+    if not user_existence:
+        return None
     user_info = get_user_basics(username)
     repos_info = get_repo_list(username)
     info = {
@@ -32,6 +35,20 @@ def get_body_content(username):
         "repos_info": repos_info
         }
     return info
+
+def check_url(username):
+    """
+    Check if the url for the given username exist or not.
+
+    :param username: string, the GitHub username our app user enters in search box
+
+    :return: boolean, if the url exists or not
+    """
+    url = GITHUB_URL + username
+    response = requests.get(url)
+    if response.status_code == 200:
+        return True
+    return False
 
 def get_soup(url):
     """
@@ -155,3 +172,17 @@ def get_repo_description(raw_repo_description):
                 text.append(x.strip())
         repo_description = " ".join(text)
         return repo_description
+
+def scrape_user_info_from_web(username):
+    """
+    Conduct a real-time web scraping from github
+
+    :param username: dict, contains user basics including username, the number of public
+    repositories and the number of last year's total contributions
+
+    :return: dict, contains user info including username, the number of public repositories
+    and the number of last year's total contributions, and a list of public repositories
+    with the given username
+    """
+    info = get_body_content(username)
+    return info
