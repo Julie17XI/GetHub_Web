@@ -9,7 +9,7 @@ import React from 'react';
  */
 const About = () => {
     return (
-        <div id="cent" class="row">
+        <div id="cent" class="row" background="../images/background.png">
             <>
                 <>
                     <>
