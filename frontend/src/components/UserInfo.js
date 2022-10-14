@@ -16,8 +16,8 @@ const UserInfo = ({repos, basics}) => {
         <div class="container">
             <h2 class="username">{user_name}</h2>
             <div class="row">
-                <div class="col s3">Repository: {repo_number}</div>
-                <div class="col s3">Last Year Contribution: {one_yr_contribution_number}</div>
+                <div class="col l6 m6 s12">Repository: {repo_number}</div>
+                <div class="col l6 m6 s12">Last Year Contribution: {one_yr_contribution_number}</div>
             </div>
 
             <div class="repo">
