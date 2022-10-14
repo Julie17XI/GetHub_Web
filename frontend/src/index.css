@@ -79,3 +79,16 @@ code {
 .logo{
   margin-left:5%;
 }
+
+span.bold {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+img {
+  vertical-align: middle;
+}
+
+h1 {
+    display:inline-block;
+}

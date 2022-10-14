@@ -12,11 +12,16 @@ const About = () => {
         <div id="cent" class="row">
             <>
                 <>
-                    <h1>
-                            Joyful Discovery...
-                    </h1>
+                    <>
+                        <img src="../images/logo.png" width="150" height="150" alt="Image"/>
+                        <h1>GetHub</h1>
+                    </>
+
+                    <h3>
+                            Built For  |
+                    </h3>
                     <span class="blue-text">
-                            We invite you to explore GitHub repositories by entering GitHub username. Search today!
+                            Joyful Discovery...We invite you to explore <span class="bold">GitHub</span> repositories by entering GitHub username. Search today!
                     </span>
                 </>
             </>
