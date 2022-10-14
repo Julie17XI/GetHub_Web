@@ -43,7 +43,7 @@ const Header = ({searchInput, setSearchInput,changeSearchResult}) => {
                         </div>
                     </li>
                     <li>
-                        <button onClick={sendInput} class="btn waves-effect waves-light" type="submit" name="action">Submit
+                        <button onClick={sendInput} class="btn #00838f cyan darken-32" type="submit" name="action">Submit
                         </button>
                     </li>
                 </ul>

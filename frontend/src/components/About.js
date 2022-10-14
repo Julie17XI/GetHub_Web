@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from '../images/logo.png';
 
 /**
  * Component for landing page.
@@ -13,7 +14,7 @@ const About = () => {
             <>
                 <>
                     <>
-                        <img src="../images/logo.png" width="150" height="150" alt="Image"/>
+                        <img src={logo} width="80" alt="Logo"/>
                         <h1>GetHub</h1>
                     </>
 
