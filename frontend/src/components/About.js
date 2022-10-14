@@ -22,7 +22,7 @@ const About = () => {
                             Built For  |
                     </h3>
                     <span class="blue-text">
-                            Joyful Discovery...We invite you to explore <span class="bold">GitHub</span> repositories by entering a GitHub username. Search today!
+                            Joyful Discovery...We invite you to learn about a <span class="bold">GitHub</span> user and his/her repositories by entering a GitHub username. Search today!
                     </span>
                 </>
             </>
