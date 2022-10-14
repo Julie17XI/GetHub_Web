@@ -13,15 +13,11 @@ import Repo from './Repo';
 const UserInfo = ({repos, basics}) => {
     const {user_name, repo_number, one_yr_contribution_number} = basics
     return (
-        <>
+        <div class="container">
             <h2 class="username">{user_name}</h2>
-            <div class="basics">
-                <div>
-                    <h3 class="nums1">Repository: {repo_number}</h3>
-                </div>
-                <div>
-                    <h3 class="nums2">Last Year Contribution: {one_yr_contribution_number}</h3>
-                </div>
+            <div class="row">
+                <div class="col s3">Repository: {repo_number}</div>
+                <div class="col s3">Last Year Contribution: {one_yr_contribution_number}</div>
             </div>
 
             <div class="repo">
@@ -31,7 +27,7 @@ const UserInfo = ({repos, basics}) => {
                     ))}
                 </ul>
             </div>
-        </>
+        </div>
     );
 };
 export default UserInfo;

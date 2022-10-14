@@ -22,7 +22,6 @@ code {
 }
 
 .username {
-  margin-left:5%;
   font-weight: bold;
   font-size: 160%;
   font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
@@ -46,9 +45,8 @@ code {
 }
 
 .repo {
-  margin-left:5%;
   margin-right:5%;
-  margin-top: 8%;
+  margin-top: 3%;
 }
 
 .reponame{
